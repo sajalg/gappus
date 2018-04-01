@@ -9,7 +9,7 @@ public class sampl {
 	public static void main(String[]args) throws IOException{
 StringTokenizer st=new StringTokenizer("sajal is goy-al "," ");
 while(st.hasMoreTokens()){
-	System.out.println(st.nextToken("-"));
+	System.out.println(st.nextToken());
 }
 		double f1 = .0;
 	    for (int i = 1; i <= 11; i++) {
