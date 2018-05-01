@@ -52,6 +52,7 @@ class sam implements InvocationHandler{
 		System.out.println("method is being invoked "+m.getName());
 		m.invoke(ll, args);
 		return null;
+		
 	}
 
 	
