@@ -1,72 +1,102 @@
 package com.cs.demos;
 
-import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.StringTokenizer;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.LinkedList;
+import java.util.List;
 
 public class sampl {
 	
-	public static void main(String[]args) throws IOException{
-StringTokenizer st=new StringTokenizer("sajal is goy-al "," ");
-while(st.hasMoreTokens()){
-	System.out.println(st.nextToken());
+	public static void main(String[]args){
+		LinkedList<String>ll=new LinkedList<String>();
+sam obj=new sam(ll);
+
+sam2 lam=(sam2)Proxy.newProxyInstance(sampl.class.getClassLoader(),new Class[]{sam2.class},obj);
+lam.add("sajal");
+lam.add("gappu");
+
+
 }
-		double f1 = .0;
-	    for (int i = 1; i <= 11; i++) {
-	        f1 += .1;
-	    }
-	 
-	    //Method 2
-	    double f2 = .1 * 11;
-	 
-	    System.out.println("f1 = " + f1);
-	    System.out.println("f2 = " + f2);
+}
+interface sam2{
+	public void add(String k);
+	public void iterate();
 
-
-
-	
-	}
 }
 
-
-class g implements UncaughtExceptionHandler{
-	@Override
-	public void uncaughtException(Thread t,Throwable k){
+class t implements sam2{
+	LinkedList<String>ll;
+public t(LinkedList<String> ll){
+	this.ll=ll;
+}
+	public void add(String k){
+		this.ll.add(k);
 		
 	}
+	public void iterate(){
+		for(String m:ll){
+			System.out.println(m);
+		}
+	}
 }
 
-class k extends Thread
-{
-	k(String name){
-		super(name);
+class sam implements InvocationHandler{
+	List ll;
+	public sam(List args){
+		ll=args;
+	}
+	@Override
+	public Object invoke(Object obj, Method m, Object[]args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+		System.out.println("method is being invoked "+m.getName());
+		m.invoke(ll, args);
+		return null;
+	}
+
+	
+}
+
+class linkedList{
+	public node tail,head;
+	public linkedList(){
+		this.head=null;
+		this.tail=this.head;
 	}
 	
-	@Override
-	public void start(){
-		
-		run();
+	public void reverse(node node){
+		node current=node;
+		node last=node.next;
+		node previous=null;
+		current.next=previous;
+		previous=current;
+		reverse(last);
 	}
 	
-	@Override
-	public void run(){
-		System.out.println(Thread.currentThread().getState());
-	System.out.println("sajal is best");	
-	}
-}
-class sam1 implements Runnable{
-	int a=10;
-	public sam1(int m){
-		this.a=m;
-	}
-	public void run(){
-		int m=10;
-		System.out.println("sajal is best");
+	public void addNode(int data){
+		node nnode=new node(data);
+		if(head==null){
+			head=nnode;
+			tail=head;
+		}
+		else{
+			node traversal=head;
+			while(traversal.next!=null){
+				traversal=traversal.next;
+			}
+			traversal.next=nnode;
+			tail=traversal.next;
+		}
 	}
 }
 
-@FunctionalInterface
-interface Supplier<Integer>{
-	public Integer get();
-}
 
+class node{
+	
+	int data;
+	node next;
+	public node(int data){
+		this.data=data;
+		this.next=null;
+	}
+}
