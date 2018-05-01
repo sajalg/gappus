@@ -70,3 +70,4 @@ interface Supplier<Integer>{
 	public Integer get();
 }
 
+"int a=10;"
